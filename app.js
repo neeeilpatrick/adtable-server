@@ -48,10 +48,13 @@ app.post("/insert", async function(request, response){
 	var api = request.body.api;
 	var baseid = request.body.baseid;
 	var table = request.body.table;
+	var id = request.body.user_id;
 
 	console.log(fields);
 	try{
 		var result = await pushToAirtable(fields, api, baseid, table);
+
+		if(id!=undefined && id!=null) await lastSignedActivity(id);
 		response.send(JSON.stringify({status: "success", id: result.id}));
 	}catch(err){
 		response.send(JSON.stringify({status: "failed", id: result.id}));
@@ -61,6 +64,22 @@ app.post("/insert", async function(request, response){
 
 http.listen(PORT, ()=>{ console.log(`Listening to port ${PORT}`) });
 
+
+function lastSignedActivity(id){
+	return new Promise((resolve, reject)=>{
+		var date = new Date();
+		base(config.airtable_table).update([
+			{
+				id: id,
+				fields: {
+					"Last Sign Activity": `${date.getFullYear()}-${pad(date.getMonth()+1, 2)}-${pad(date.getDate(), 2)} ${pad(date.getHours(), 2)}:${pad(date.getMinutes(), 2)}:${pad(date.getSeconds(), 2)}`
+				}
+			}
+		], function(err, records){
+			resolve();
+		});
+	});
+}
 
 function getUsers(license, account){
 	return new Promise((resolve, reject)=>{
@@ -89,24 +108,22 @@ function getUsers(license, account){
 		}, function done(err){
 			if (err) { console.error(err); return; }
 
-			resolve({status: isExist, email: email});
+			resolve({status: isExist, email: email, id: id});
 		});
 	});
 }
 
-function encrypt(key, salt){
-	var hash = crypto.createHmac("md5", salt);
-	hash.update(key);
-	hash = hash.digest("hex");
-	return hash;
-}
 
 
 function pushToAirtable(fields, api, baseid, table){
+	console.log(fields);
+	console.log(api);
+	console.log(baseid);
+	console.log(table);
 	return new Promise((resolve, reject)=>{
 		var user = new airtable({apiKey: api}).base(baseid);
 		user(table).create(fields, function(err, record){
-			if(err) reject();
+			if(err) reject(err);
 			resolve(record);
 		});
 	});
