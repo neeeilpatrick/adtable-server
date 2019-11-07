@@ -57,7 +57,7 @@ app.post("/insert", async function(request, response){
 		if(id!=undefined && id!=null) await lastSignedActivity(id);
 		response.send(JSON.stringify({status: "success", id: result.id}));
 	}catch(err){
-		response.send(JSON.stringify({status: "failed", id: result.id}));
+		response.send(JSON.stringify({status: "failed"}));
 	}
 });
 
