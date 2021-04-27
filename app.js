@@ -4,7 +4,6 @@ var package = require("./package.json")
 var http = require("http").createServer(app);
 var path = require("path");
 var bodyParser = require("body-parser");
-var crypto = require("crypto");
 var validator = require('validator');
 const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
@@ -16,6 +15,7 @@ var base = new airtable({apiKey: config.airtable_api}).base(config.airtable_base
 
 var PORT = 80;
 
+console.log(config)
 app.use("/js", express.static(path.join(__dirname, "html/js")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({	extended: false	}));
