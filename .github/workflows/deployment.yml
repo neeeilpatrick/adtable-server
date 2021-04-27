@@ -11,3 +11,8 @@ jobs:
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        cd ~/actions-runner/_work/adtable-server/adtable-server
+        npm install

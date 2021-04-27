@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express();
+var package = require("./package.json")
 var http = require("http").createServer(app);
 var path = require("path");
 var bodyParser = require("body-parser");
@@ -64,6 +65,11 @@ app.post("/insert", async function(request, response){
 		response.send(JSON.stringify({status: "failed"}));
 	}
 });
+
+
+app.get("/", function(req, res){
+	res.send(JSON.stringify({version: package.version}))
+})
 
 
 http.listen(PORT, ()=>{ console.log(`Listening to port ${PORT}`) });
