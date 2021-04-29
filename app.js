@@ -381,7 +381,7 @@ app.post("/notif[-]tamer/license[-]status", async function(request, response){
 			})
 		}
 		try {
-			let records = await licenseFilter(`Key = "${key}"`, NOTIF_BASE)
+			let records = await licenseFilter(`AND(Key = "${key}", Email = "${email}")`, NOTIF_BASE)
 			console.log(records)
 			if(records.length > 0) {
 				response.status(200).send({
@@ -418,7 +418,7 @@ app.post("/notif[-]tamer/license[-]update", async function(request, response){
 		}
 		
 		try {
-			let records = await licenseFilter(`Key = "${key}"`, NOTIF_BASE)
+			let records = await licenseFilter(`AND(Key = "${key}", Email = "${email}")`, NOTIF_BASE)
 			console.log(records)
 			if(records.length > 0) {
 				try {
