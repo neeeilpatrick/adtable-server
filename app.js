@@ -161,7 +161,8 @@ app.post("/ghl[-]editor/license[-]status", async function(request, response){
 					response.status(200).send({
 							success: true,
 							status: records[0].fields.Status,
-							domain: records[0].fields['White Label Domain']
+							domain: records[0].fields['White Label Domain'],
+							ignore_white_label_check: records[0].fields['Ignore White Label Check'],
 						})
 				} else {
 					response.status(200).send({ 
@@ -215,6 +216,7 @@ app.post("/ghl[-]editor/license[-]create", async function(request, response){
 				"Status": "Active",
 				"Key": key,
 				"White Label Domain": domain,
+				"Ignore White Label Check": request.body.ignore_white_label_check || false,
 			}
 			// create new record on airtable
 			try {
