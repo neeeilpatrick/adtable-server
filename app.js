@@ -163,6 +163,7 @@ app.post("/ghl[-]editor/license[-]status", async function(request, response){
 							status: records[0].fields.Status,
 							domain: records[0].fields['White Label Domain'],
 							ignore_white_label_check: records[0].fields['Ignore White Label Check'],
+							google_translate_key: records[0].fields['Google Translate API Key'],
 						})
 				} else {
 					response.status(200).send({ 
@@ -217,6 +218,7 @@ app.post("/ghl[-]editor/license[-]create", async function(request, response){
 				"Key": key,
 				"White Label Domain": domain,
 				"Ignore White Label Check": request.body.ignore_white_label_check || false,
+				"Google Translate API Key": request.body.google_translate_key || null,
 			}
 			// create new record on airtable
 			try {
