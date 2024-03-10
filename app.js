@@ -146,7 +146,7 @@ function pad(num, size) {
  }
 
 
-let API_KEY = 'keyz2Ksi8jQ30902Q'
+let API_KEY = 'pat8OqW4l3TNUymrB.c150006c8d3dcfad33d264d7def77ef7313c8af7db426294aa69726defbc3395'
 let BASE = 'applvPBETCOVNI2yL'
 
 app.post("/ghl[-]editor/license[-]status", async function(request, response){
